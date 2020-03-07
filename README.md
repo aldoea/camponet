@@ -1,1 +1,3 @@
-# camponet
+# Camponet
+
+Cultivo Inteligente Colaborativo
