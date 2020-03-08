@@ -41,6 +41,7 @@ def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
         db = firestore.client()
         doc_ref = db.collection(u'datapoints').document(u'{}'.format(unix_timestamp))
         doc_ref.set(data)
+        print('Doc updated')
 
 def main():
     ser = serial.Serial('/dev/ttyACM0', 9600)
