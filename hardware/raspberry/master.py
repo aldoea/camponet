@@ -3,10 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# Use a service account
-db = firestore.client()
-cred = credentials.Certificate('./campo-net2020-firebase-adminsdk-2tn9u-1c82cf5402.json')
-firebase_admin.initialize_app(cred)
+
 
 #The following block of code works like this:
 #If serial data is present, read the line, decode the UTF8 data,
@@ -27,18 +24,23 @@ def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     humidityAvg = average(humidityBuffer)
     illuminationAvg = average(illuminationBuffer)
     print(f"=>DATA TO SEND: Temperatura: {tempAvg}, Humedad: {humidityAvg}, Iluminacion: {illuminationAvg}")
-    
-    current_time = datetime.datetime.now(datetime.timezone.utc)
-    unix_timestamp = current_time.timestamp()
-    data = {
-        u'temperature': tempAvg,
-        u'humidity': humidityAvg,
-        u'illumination': illuminationAvg,
-        u'timestamp': unix_timestamp
-    }
-    
-    doc_ref = db.collection(u'datapoints').document(u'{}'.format(unix_timestamp))
-    doc_ref.set(data)
+    # Use a service account
+    if (not len(firebase_admin._apps)):
+        cred = credentials.Certificate('./campo-net2020-firebase-adminsdk-2tn9u-1c82cf5402.json')
+        firebase_admin.initialize_app(cred)
+        
+        current_time = datetime.datetime.now(datetime.timezone.utc)
+        unix_timestamp = current_time.timestamp()
+        data = {
+            u'temperature': tempAvg,
+            u'humidity': humidityAvg,
+            u'illumination': illuminationAvg,
+            u'timestamp': unix_timestamp
+        }
+        
+        db = firestore.client()
+        doc_ref = db.collection(u'datapoints').document(u'{}'.format(unix_timestamp))
+        doc_ref.set(data)
 
 def main():
     ser = serial.Serial('/dev/ttyACM0', 9600)
