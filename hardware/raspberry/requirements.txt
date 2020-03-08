@@ -1,0 +1,2 @@
+# camponet reqs
+firebase-admin==3.2.1
