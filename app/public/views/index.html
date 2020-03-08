@@ -1,0 +1,52 @@
+<html>
+
+<head>
+  <title>Camponet</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+  
+  <script defer src="./init-firebase.js"></script>
+  <!-- VUE -->
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- Inner scripts -->
+  <script defer src="./test-firebase.js"></script>
+  
+
+</head>
+
+<body>
+  <h1>Camponet</h1>
+  <p>Test number one</p>
+  <form id="userForm">
+    <label for="first">First</label>
+    <input type="text" name="first" id="first">
+    <label for="last">Last</label>
+    <input type="text" name="last" id="last">
+    <label for="born">Born</label>
+    <input type="text" name="born" id="born">
+    <button id="btnAddUser" type='button'  onclick="addUser()">Post user</button> 
+  </form>
+
+  <div>
+    <h2>Existig users</h2>
+    <div id="userContainer">
+      <div id="usersList">
+        <ol>
+          <li v-for="user in users">
+            {{ user.first }} {{ user.last}} {{user.born}}
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
