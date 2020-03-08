@@ -17,7 +17,7 @@ def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     tempAvg = average(tempBuffer)
     humidityAvg = average(humidityAvg)
     illuminationAvg = average(illuminationBuffer)
-    print(f"=> Temperatura: {tempAvg}, Humedad: {humidityAvg}, Iluminacion: {illuminationAvg}")
+    print(f"=>DATA TO SEND: Temperatura: {tempAvg}, Humedad: {humidityAvg}, Iluminacion: {illuminationAvg}")
 
 def main():
     ser = serial.Serial('/dev/ttyACM0', 9600)
@@ -29,8 +29,7 @@ def main():
     while True:
         try:
             if ser.in_waiting > 0:
-                print('->Starting reading...')
-                serialConnectionAttemps = 0
+                print('->Serial signal recived...')
                 rawserial = ser.readline()
                 cookedserial = rawserial.decode('utf-8').strip('\r\n')
                 datasplit = cookedserial.split(',')
@@ -40,24 +39,20 @@ def main():
                 tempBuffer.append(temperature)
                 humidityBuffer.append(humidity)
                 illuminationBuffer.append(illumination)
+                recordCounter+=1
+                print(f"=>RecordCounter: {recordCounter} Temperatura: {len(tempBuffer)}, Humedad: {len(humidity)}, Iluminacion: {len(illuminationBuffer)}")
                 if recordCounter == 5 and len(tempBuffer) == 5 and len(humidityBuffer) == 5 and len(illuminationBuffer) == 5:
                     triggerDataPost()
                     tempBuffer = []
                     humidityBuffer = []
                     illuminationBuffer = []
                     recordCounter = 0
-                else:
-                    recordCounter+=1
-            # else:
-            #     print('=> No serial stream detected, waiting 3 secs...')
-            #     sleep(3)
-            #     serialConnectionAttemps+=1
-            #     if serialConnectionAttemps > 100: break
         except Exception as e:
                 # Wait for 5 seconds
                 print("=========== ERROR ===========")
                 logging.exception(e)
                 sleep(5)
+    ser.close()
 
 if __name__ == "__main__":
     main()
