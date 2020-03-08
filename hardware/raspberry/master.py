@@ -27,32 +27,34 @@ def main():
     illuminationBuffer = []
     while True:
         try:
-                if ser.in_waiting > 0:
-                    serialConnectionAttemps = 0
-                    rawserial = ser.readline()
-                    cookedserial = rawserial.decode('utf-8').strip('\r\n')
-                    datasplit = cookedserial.split(',')
-                    temperature = datasplit[0].strip('<')
-                    humidity = datasplit[1]
-                    illumination = datasplit[2].strip('>')
-                    tempBuffer.append(temperature)
-                    humidityBuffer.append(humidity)
-                    illuminationBuffer.append(illumination)
-                    if recordCounter == 5 and len(tempBuffer) == 5 and len(humidityBuffer) == 5 and len(illuminationBuffer) == 5:
-                        triggerDataPost()
-                        tempBuffer = []
-                        humidityBuffer = []
-                        illuminationBuffer = []
-                        recordCounter = 0
+            if ser.in_waiting > 0:
+                serialConnectionAttemps = 0
+                rawserial = ser.readline()
+                cookedserial = rawserial.decode('utf-8').strip('\r\n')
+                datasplit = cookedserial.split(',')
+                temperature = datasplit[0].strip('<')
+                humidity = datasplit[1]
+                illumination = datasplit[2].strip('>')
+                tempBuffer.append(temperature)
+                humidityBuffer.append(humidity)
+                illuminationBuffer.append(illumination)
+                if recordCounter == 5 and len(tempBuffer) == 5 and len(humidityBuffer) == 5 and len(illuminationBuffer) == 5:
+                    triggerDataPost()
+                    tempBuffer = []
+                    humidityBuffer = []
+                    illuminationBuffer = []
+                    recordCounter = 0
                 else:
-                    print('=> No serial stream detected, waiting 3 secs...')
-                    sleep(3)
-                    serialConnectionAttemps+=1
-                    if serialConnectionAttemps > 100: break
-        except expression as identifier:
+                    recordCounter+=1
+            else:
+                print('=> No serial stream detected, waiting 3 secs...')
+                sleep(3)
+                serialConnectionAttemps+=1
+                if serialConnectionAttemps > 100: break
+        except Exception as e:
                 # Wait for 5 seconds
                 print("=========== ERROR ===========")
-                print(identifier)
+                print(e)
                 sleep(5)
 
 if __name__ == "__main__":
