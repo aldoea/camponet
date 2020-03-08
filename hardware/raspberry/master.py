@@ -14,7 +14,7 @@ def sleep(secs):
 
 # Python program to get average of a list 
 def average(lst): 
-    return sum(lst) / len(lst) 
+    return (sum(lst) / len(lst)) 
 
 def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     print("Trigger actioned")
@@ -31,7 +31,7 @@ def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     data = {
         u'temperature': tempAvg,
         u'humidity': humidityAvg,
-        u'temperature': illuminationAvg,
+        u'illumination': illuminationAvg,
         u'timestamp': unix_timestamp
     }
     
