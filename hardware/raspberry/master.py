@@ -15,7 +15,7 @@ def average(lst):
 def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     print("Trigger actioned")
     tempAvg = average(tempBuffer)
-    humidityAvg = average(humidityAvg)
+    humidityAvg = average(humidityBuffer)
     illuminationAvg = average(illuminationBuffer)
     print(f"=>DATA TO SEND: Temperatura: {tempAvg}, Humedad: {humidityAvg}, Iluminacion: {illuminationAvg}")
 
@@ -45,7 +45,7 @@ def main():
                 humidityBuffer.append(humidity)
                 illuminationBuffer.append(illumination)
                 recordCounter+=1
-                print(f"=>RecordCounter: {recordCounter} Temperatura: {len(tempBuffer)}, Humedad: {len(humidity)}, Iluminacion: {len(illuminationBuffer)}")
+                print(f"=>RecordCounter: {recordCounter} Temperatura: {len(tempBuffer)}, Humedad: {len(humidityBuffer)}, Iluminacion: {len(illuminationBuffer)}")
                 if recordCounter == 5 and len(tempBuffer) == 5 and len(humidityBuffer) == 5 and len(illuminationBuffer) == 5:
                     triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer)
                     tempBuffer = []
