@@ -10,7 +10,7 @@ def sleep(secs):
 
 # Python program to get average of a list 
 def average(lst): 
-	return sum(lst) / len(lst) 
+    return sum(lst) / len(lst) 
 
 def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     print("Trigger actioned")
@@ -32,17 +32,22 @@ def main():
                 print('->Serial signal recived...')
                 rawserial = ser.readline()
                 cookedserial = rawserial.decode('utf-8').strip('\r\n')
+                print("Serial input:", cookedserial)
                 datasplit = cookedserial.split(',')
-                temperature = datasplit[0].strip('<')
-                humidity = datasplit[1]
-                illumination = datasplit[2].strip('>')
+                if len(datasplit) != 3: continue
+                temperature = float(datasplit[0].strip('<'))
+                print("TEMP:", temperature)
+                humidity = float(datasplit[1])
+                print("HUM:", humidity)
+                illumination = float(datasplit[2].strip('>'))
+                print("ILL:", illumination)
                 tempBuffer.append(temperature)
                 humidityBuffer.append(humidity)
                 illuminationBuffer.append(illumination)
                 recordCounter+=1
                 print(f"=>RecordCounter: {recordCounter} Temperatura: {len(tempBuffer)}, Humedad: {len(humidity)}, Iluminacion: {len(illuminationBuffer)}")
                 if recordCounter == 5 and len(tempBuffer) == 5 and len(humidityBuffer) == 5 and len(illuminationBuffer) == 5:
-                    triggerDataPost()
+                    triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer)
                     tempBuffer = []
                     humidityBuffer = []
                     illuminationBuffer = []
