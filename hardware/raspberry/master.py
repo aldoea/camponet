@@ -13,6 +13,7 @@ def average(lst):
 	return sum(lst) / len(lst) 
 
 def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
+    print("Trigger actioned")
     tempAvg = average(tempBuffer)
     humidityAvg = average(humidityAvg)
     illuminationAvg = average(illuminationBuffer)
@@ -47,11 +48,11 @@ def main():
                     recordCounter = 0
                 else:
                     recordCounter+=1
-            else:
-                print('=> No serial stream detected, waiting 3 secs...')
-                sleep(3)
-                serialConnectionAttemps+=1
-                if serialConnectionAttemps > 100: break
+            # else:
+            #     print('=> No serial stream detected, waiting 3 secs...')
+            #     sleep(3)
+            #     serialConnectionAttemps+=1
+            #     if serialConnectionAttemps > 100: break
         except Exception as e:
                 # Wait for 5 seconds
                 print("=========== ERROR ===========")
