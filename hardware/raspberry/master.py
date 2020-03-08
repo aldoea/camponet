@@ -1,4 +1,4 @@
-import serial, string, time
+import serial, string, time, logging
 #The following block of code works like this:
 #If serial data is present, read the line, decode the UTF8 data,
 #...remove the trailing end of line characters
@@ -28,6 +28,7 @@ def main():
     while True:
         try:
             if ser.in_waiting > 0:
+                print('->Starting reading...')
                 serialConnectionAttemps = 0
                 rawserial = ser.readline()
                 cookedserial = rawserial.decode('utf-8').strip('\r\n')
@@ -54,7 +55,7 @@ def main():
         except Exception as e:
                 # Wait for 5 seconds
                 print("=========== ERROR ===========")
-                print(e)
+                logging.exception(e)
                 sleep(5)
 
 if __name__ == "__main__":
