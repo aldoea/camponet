@@ -23,7 +23,7 @@ def triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer):
     illuminationAvg = average(illuminationBuffer)
     print(f"=>DATA TO SEND: Temperatura: {tempAvg}, Humedad: {humidityAvg}, Iluminacion: {illuminationAvg}")
     # Use a service account
-    cred = credentials.Certificate('camponet/hardware/raspberry/campo-net2020-firebase-adminsdk-2tn9u-1c82cf5402.json')
+    cred = credentials.Certificate('./campo-net2020-firebase-adminsdk-2tn9u-1c82cf5402.json')
     firebase_admin.initialize_app(cred)
     
     current_time = datetime.datetime.now(datetime.timezone.utc)
