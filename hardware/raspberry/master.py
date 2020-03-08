@@ -68,6 +68,7 @@ def main():
                 print(f"=>RecordCounter: {recordCounter} Temperatura: {len(tempBuffer)}, Humedad: {len(humidityBuffer)}, Iluminacion: {len(illuminationBuffer)}")
                 if recordCounter == 5 and len(tempBuffer) == 5 and len(humidityBuffer) == 5 and len(illuminationBuffer) == 5:
                     triggerDataPost(tempBuffer, humidityBuffer, illuminationBuffer)
+                    print('Debuggin in production')
                     tempBuffer = []
                     humidityBuffer = []
                     illuminationBuffer = []
